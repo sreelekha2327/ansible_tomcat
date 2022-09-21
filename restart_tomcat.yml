@@ -1,0 +1,14 @@
+---
+ - name : restart tomcat server
+   hosts : all
+   become : true
+   
+   tasks :
+   - name : find tomcat PID
+     shell : ps aux | grep tomcat | head -1 | awk -F " " '{print$2}' > p
+     
+   - name : kill tomcat 
+     shell : cat p | xargs kill -9
+
+   - name : start tomcat
+     shell : /opt/apache-tomcat-9.0.65/bin/startup.sh
